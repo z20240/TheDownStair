@@ -262,6 +262,10 @@ public class PlayerCtrl : MonoBehaviour {
                     playerClone.GetComponent<PlayerCtrl> ().Life_time = effHash["Amphetamines"].DefaultTime;
                     playerClone.name = "NonPlayer";
                     break;
+
+                case "Health_bag":
+                    hp = Mathf.Clamp(hp + 40, 0, 100);
+                    break;
             }
         }
     }

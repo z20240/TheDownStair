@@ -18,6 +18,7 @@ public class ObjectPool : MonoBehaviour {
     public GameObject MDMA; // 搖頭丸
     public GameObject NewDrugs; // 新興毒品
     public GameObject Amphetamines; // 安非他命
+    public GameObject Health_bag; // 救命包
     public GameObject Player; // 玩家(分身)
 
     private IDictionary<string, Queue<GameObject>> dict = new Dictionary<string, Queue<GameObject>>();
@@ -30,6 +31,8 @@ public class ObjectPool : MonoBehaviour {
             "stone_stair_1", "stone_stair_2",
 
             "Bath_salts", "Heroin", "Ketamine", "MDMA", "NewDrugs", "Amphetamines",
+
+            "Health_bag",
 
             "Player",
         };
@@ -47,6 +50,7 @@ public class ObjectPool : MonoBehaviour {
         InitPool(dict["MDMA"], MDMA, 21);
         InitPool(dict["NewDrugs"], NewDrugs, 21);
         InitPool(dict["Amphetamines"], Amphetamines, 21);
+        InitPool(dict["Health_bag"], Health_bag, 21);
         InitPool(dict["Player"], Player, 3);
     }
 
