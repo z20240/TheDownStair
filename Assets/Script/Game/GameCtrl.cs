@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameCtrl : MonoBehaviour {
     private float speed_step = 0.02f; // 初始移動速度
-    private float speed_add = 0.02f; // 每十秒增加的速度
+    private float speed_add = 0.01f; // 每十秒增加的速度
     private int floor = 0; // 樓層
     private float _time = 1;
+    private float _game_time = 0;
     private bool isPause = false;
 
 
     public GameObject CtrlPannel;
+    public stairSpawner stairSpawner;
+    public PlayerCtrl playerCtrl;
 
     public float Speed_step {
         get { return speed_step; }
@@ -30,12 +34,15 @@ public class GameCtrl : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
+        stairSpawner = GameObject.Find("stairSpawner").GetComponent<stairSpawner>();
+        playerCtrl = GameObject.Find("player").GetComponent<PlayerCtrl>();
+        Screen.SetResolution(1920, 1080, true);
 	}
 
 	// Update is called once per frame
 	void Update () {
         _time += Time.deltaTime;
+        _game_time += Time.deltaTime;
 
         if (Input.GetKeyUp(KeyCode.Escape)) {
             if (!isPause) {
@@ -45,15 +52,22 @@ public class GameCtrl : MonoBehaviour {
             }
         }
 
-        if (((int)_time) % 10 == 0) {
+        if (((int)_time) % 6 == 0) {
             Debug.Log(" == time: " + _time);
             _time = 1;
             speed_step += speed_add;
-            floor += 1;
 
             // 更新已經生成的石梯的移動速度，以避免後進的石梯追過前面的石梯
             Add_all_stair_speed();
         }
+
+        // 死亡後 1.5 秒 切換畫面
+        if (playerCtrl.Die_time > 0 && _game_time >= playerCtrl.Die_time + 1.5) {
+            SceneManager.LoadScene("end");
+        }
+
+        // 計算下樓的樓層 (每 1 個階梯 1 樓)
+        floor = stairSpawner.Stair_count / 1;
 	}
 
     public void Pause() {

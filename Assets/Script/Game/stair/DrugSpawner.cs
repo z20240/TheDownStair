@@ -15,6 +15,8 @@ public class DrugSpawner : MonoBehaviour {
         "Ketamine",
         "MDMA",
         "NewDrugs",
+        "Amphetamines",
+        "Health_bag",
     };
 
     private float spawnTime = 1.2f; // 產生階梯的時間

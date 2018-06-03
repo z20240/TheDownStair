@@ -15,6 +15,7 @@ public class StartScencCtrl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         start_ui_1 = GameObject.Find("image_1");
+        Screen.SetResolution(1920, 1080, true);
 	}
 
 	// Update is called once per frame
@@ -27,6 +28,9 @@ public class StartScencCtrl : MonoBehaviour {
                 OnHover.Invoke();
             }
         }
+
+        if (Input.GetKey(KeyCode.Return))
+            SceneManager.LoadScene("game");
 	}
 
     // 當滑鼠進入時

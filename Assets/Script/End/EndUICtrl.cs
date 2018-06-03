@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
 public class EndUICtrl : MonoBehaviour {
     public GameObject end_ui_default;
     public GameObject end_ui_quit;
@@ -17,6 +18,7 @@ public class EndUICtrl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Screen.SetResolution(1920, 1080, true);
 	}
 
 	// Update is called once per frame

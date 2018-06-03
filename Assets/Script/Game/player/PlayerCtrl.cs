@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerCtrl : MonoBehaviour {
     // == setting
@@ -20,6 +19,12 @@ public class PlayerCtrl : MonoBehaviour {
     [Header ("是否踩在地板")]
     public bool grounded = false; // Whether or not the player is grounded.
     [Header ("玩家血量")]
+
+    [Header("音效 跳躍")]
+    public AudioSource audio_jump;
+    [Header("音效 頭暈")]
+    public AudioSource audio_faint;
+
     private int maxhp = 100;
     private int hp;
 
@@ -28,6 +33,8 @@ public class PlayerCtrl : MonoBehaviour {
     private float maxSpeed = 2f;
     public float moveSpeed = 0.1f;
     private float effect_time = 2f; // 1 秒
+    private int die_time = 0;
+    private bool is_die = false;
 
     private Animator animator;
     GameObject pool;
@@ -101,6 +108,11 @@ public class PlayerCtrl : MonoBehaviour {
         set { maxhp = value; }
     }
 
+    public int Die_time {
+        get { return die_time; }
+        set { die_time = value; }
+    }
+
     // Use this for initialization
     void Start () {
         animator = skin.GetComponent<Animator> ();
@@ -108,23 +120,21 @@ public class PlayerCtrl : MonoBehaviour {
         pool = GameObject.Find ("pool");
         objPool = pool.GetComponent<ObjectPool> ();
 
-        effHash["Bath_salts"] = new Effect ("Bath_salts", 0.5f, 0f);
-        effHash["Heroin"] = new Effect ("Heroin", 2f, 0f);
-        effHash["Ketamine"] = new Effect ("Ketamine", 2f, 0f);
-        effHash["MDMA"] = new Effect ("MDMA", 2f, 0f);
-        effHash["NewDrugs"] = new Effect ("NewDrugs", 2f, 0f);
-        effHash["Amphetamines"] = new Effect ("Amphetamines", 5f, 0f);
+        effHash["Bath_salts"] = new Effect ("Bath_salts", 0.5f, 0f); // 浴鹽：加速
+        effHash["Heroin"] = new Effect ("Heroin", 2f, 0f); // 海洛因：減速
+        effHash["Ketamine"] = new Effect ("Ketamine", 2f, 0f); // K 他命：損血
+        effHash["MDMA"] = new Effect ("MDMA", 1f, 0f); // 搖頭丸：頭暈
+        effHash["NewDrugs"] = new Effect ("NewDrugs", 2f, 0f); // 新藥物：相反方向
+        effHash["Amphetamines"] = new Effect ("Amphetamines", 5f, 0f); // 安非他命：分身
+        effHash["Health_bag"] = new Effect ("Health_bag", 0f, 0f);
 
         effHashkeyList = new List<string> (effHash.Keys);
         hp = maxhp = 100;
         _next = _timer = 0;
         _ori_move_speed = moveSpeed;
-
     }
 
     void Update () {
-        _timer += Time.deltaTime;
-
         if (isClone && _timer >= life_time) {
             // 如果是 克隆的人，時間到要消失
             objPool.Recovery ("Player", gameObject);
@@ -147,24 +157,31 @@ public class PlayerCtrl : MonoBehaviour {
             }
         }
 
-        // The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
-        // 設置偵測是否為地板，會從 gameObject.transform.position 發射一個設限到 groundCheck.transform.position, 第三個參數是設定能碰撞的 layer 層
-        grounded = Physics2D.Linecast(transform.position, groundCheck.transform.position, 1 << LayerMask.NameToLayer ("Ground"));
-
         // 如果按下跳並且是在地上，才給他跳
-        if (Input.GetButtonDown("Jump") && grounded)
+        if (Input.GetButtonDown("Jump") && grounded) {
+            audio_jump.PlayOneShot(audio_jump.clip);
             jump = true;
-
-        if (hp <= 0 && !isClone) {
-            // 遊戲結束，進入endgame
-            SceneManager.LoadScene("end");
         }
 
+        // 用碰撞是否有開啟當作是否設定過了
+        if (hp <= 0 && !isClone && !is_die) {
+            // 死亡，遊戲結束，進入endgame
+            die_time = (int)_timer;
+            is_die = true;
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate () {
         _fixed_timer += Time.deltaTime;
+        _timer += Time.deltaTime;
+
+        // The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
+        // 設置偵測是否為地板，會從 gameObject.transform.position 發射一個設限到 groundCheck.transform.position, 第三個參數是設定能碰撞的 layer 層
+        grounded = Physics2D.Linecast(transform.position, groundCheck.transform.position, 1 << LayerMask.NameToLayer ("Ground"));
+
+        if (hp <= 0 && !isClone && !is_die)
+            gameObject.GetComponent<Collider2D>().enabled = false;
 
         if (effHash["Ketamine"].IsTrigger) {
             // Ｋ他命 (血條逐漸變少)
@@ -173,9 +190,10 @@ public class PlayerCtrl : MonoBehaviour {
                 _ketamine_next_time = _fixed_timer;
             }
         }
-        if (effHash["MDMA"].IsTrigger) {
-            // 搖頭丸 (走一下停一下)
+        if (!isClone && (effHash["MDMA"].IsTrigger || die_time > 0)) {
+            // 搖頭丸 (走一下停一下) || 已經死掉了
             animator.SetBool ("Faint", true);
+            audio_faint.PlayOneShot(audio_faint.clip, 0.5f);
             return;
         }
 
@@ -237,11 +255,11 @@ public class PlayerCtrl : MonoBehaviour {
                     break;
                 case "Ketamine":
                     // Ｋ他命 (血條逐漸變少)
-                    effHash["Ketamine"].IsTrigger = true;
+                    effHash["Ketamine"].Triggered = true;
                     break;
                 case "MDMA":
                     // 搖頭丸 (走一下停一下)
-                    effHash["MDMA"].IsTrigger = true;
+                    effHash["MDMA"].Triggered = true;
                     break;
                 case "NewDrugs":
                     // 新興藥物 (相反方向)
