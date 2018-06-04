@@ -9,7 +9,7 @@ public class PlayerCtrl : MonoBehaviour {
     private bool facingRight = true; // For determining which way the player is currently facing.
     // [HideInInspector]
     [Header ("垂直向上起跳的力")]
-    public float jumpForce = 250f; // Amount of force added when the player jumps.
+    public float jumpForce = 300f; // Amount of force added when the player jumps.
     [Header ("玩家圖")]
     public GameObject skin;
     public bool is_faint = false;
@@ -31,7 +31,7 @@ public class PlayerCtrl : MonoBehaviour {
     private bool jump = false; // Condition for whether the player should jump.
     private float moveForce = 365f; // Amount of force added to move the player left and right.
     private float maxSpeed = 2f;
-    public float moveSpeed = 0.1f;
+    public float moveSpeed = 0.05f; // 移動速度
     private float effect_time = 2f; // 1 秒
     private int die_time = 0;
     private bool is_die = false;
@@ -120,12 +120,12 @@ public class PlayerCtrl : MonoBehaviour {
         pool = GameObject.Find ("pool");
         objPool = pool.GetComponent<ObjectPool> ();
 
-        effHash["Bath_salts"] = new Effect ("Bath_salts", 0.5f, 0f); // 浴鹽：加速
-        effHash["Heroin"] = new Effect ("Heroin", 2f, 0f); // 海洛因：減速
-        effHash["Ketamine"] = new Effect ("Ketamine", 2f, 0f); // K 他命：損血
+        effHash["Bath_salts"] = new Effect ("Bath_salts", 1f, 0f); // 浴鹽：加速
+        effHash["Heroin"] = new Effect ("Heroin", 1f, 0f); // 海洛因：減速
+        effHash["Ketamine"] = new Effect ("Ketamine", 1f, 0f); // K 他命：損血
         effHash["MDMA"] = new Effect ("MDMA", 1f, 0f); // 搖頭丸：頭暈
-        effHash["NewDrugs"] = new Effect ("NewDrugs", 2f, 0f); // 新藥物：相反方向
-        effHash["Amphetamines"] = new Effect ("Amphetamines", 5f, 0f); // 安非他命：分身
+        effHash["NewDrugs"] = new Effect ("NewDrugs", 1f, 0f); // 新藥物：相反方向
+        effHash["Amphetamines"] = new Effect ("Amphetamines", 2f, 0f); // 安非他命：分身
         effHash["Health_bag"] = new Effect ("Health_bag", 0f, 0f);
 
         effHashkeyList = new List<string> (effHash.Keys);
@@ -186,7 +186,7 @@ public class PlayerCtrl : MonoBehaviour {
         if (effHash["Ketamine"].IsTrigger) {
             // Ｋ他命 (血條逐漸變少)
             if (_fixed_timer >= _ketamine_next_time + 0.5f) {
-                hp -= 10;
+                addHp(-10);
                 _ketamine_next_time = _fixed_timer;
             }
         }
@@ -215,11 +215,11 @@ public class PlayerCtrl : MonoBehaviour {
         }
 
         // If the input is moving the player right and the player is facing left...
-        if (h > 0 && !facingRight)
-            Flip (); // ... flip the player.
+        if (h > 0 /*&& !facingRight*/)
+            Flip (1); // ... flip the player.
         // Otherwise if the input is moving the player left and the player is facing right...
-        else if (h < 0 && facingRight)
-            Flip (); // ... flip the player.
+        else if (h < 0 /*&& facingRight*/)
+            Flip (-1); // ... flip the player.
 
         if (jump) {
             // Add a vertical force to the player.
@@ -237,6 +237,10 @@ public class PlayerCtrl : MonoBehaviour {
     /// <param name="other">The Collision data associated with this collision.</param>
     void OnCollisionEnter2D (Collision2D other) {
         string collider_name = UtilTool.getOriName (other.gameObject.name);
+
+        if (other.gameObject.tag == "stair") {
+            addHp(2); // 踩一個階梯 +2 hp
+        }
 
         if (other.gameObject.tag == "Drug") {
             effHash[collider_name].NextTime = System.Math.Max(effHash[collider_name].NextTime, _timer) + effHash[collider_name].DefaultTime;
@@ -282,19 +286,26 @@ public class PlayerCtrl : MonoBehaviour {
                     break;
 
                 case "Health_bag":
-                    hp = Mathf.Clamp(hp + 40, 0, 100);
+                    addHp(40);
                     break;
             }
         }
     }
 
-    public void Flip () {
+    public void Flip (int dist) {
         // Switch the way the player is labelled as facing.
         facingRight = !facingRight;
 
         // Multiply the player's x local scale by -1.
         Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
+        // theScale.x *= -1;
+        if (dist > 0) theScale.x = Mathf.Abs(theScale.x);
+        else theScale.x = -Mathf.Abs(theScale.x);
+
         transform.localScale = theScale;
+    }
+
+    public void addHp(int patch) {
+        hp = Mathf.Clamp(hp + patch, 0, 100);
     }
 }

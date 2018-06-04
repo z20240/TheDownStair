@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameCtrl : MonoBehaviour {
-    private float speed_step = 0.02f; // 初始移動速度
+    private float speed_step = 0.01f; // 初始移動速度
     private float speed_add = 0.01f; // 每十秒增加的速度
     private int floor = 0; // 樓層
     private float _time = 1;
@@ -56,6 +56,7 @@ public class GameCtrl : MonoBehaviour {
             Debug.Log(" == time: " + _time);
             _time = 1;
             speed_step += speed_add;
+            playerCtrl.jumpForce += 10; // 提升玩家起跳的力道
 
             // 更新已經生成的石梯的移動速度，以避免後進的石梯追過前面的石梯
             Add_all_stair_speed();

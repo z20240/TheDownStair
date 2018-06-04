@@ -19,7 +19,7 @@ public class Stick : MonoBehaviour {
             Debug.Log("施予一個 250 的力");
             other.gameObject.transform.position = other.gameObject.transform.position + new Vector3(0, -1f, 0);
 
-            other.GetComponent<PlayerCtrl>().Hp -= 40;
+            other.GetComponent<PlayerCtrl>().addHp(-40);
         }
     }
 }
