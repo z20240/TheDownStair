@@ -14,7 +14,10 @@ public class CtrlPanel : MonoBehaviour {
 
     bool is_hover = false;
     float _time, exec_time = 0.01f;
+    bool restart_flag = false, continue_flag = false, leave_flag = false;
     Vector3 ori_scale;
+
+    string[] btn_name = { "Restart", "Continue", "Leave"};
 
 	// Use this for initialization
 	void Start () {
@@ -39,22 +42,20 @@ public class CtrlPanel : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (gameCtrl.ChooseBtn == 1 && gameObject.name == "Restart")
-            gameObject.transform.localScale *= 1.2f;
-        else if (gameCtrl.ChooseBtn == 2 && gameObject.name == "Continue")
-            gameObject.transform.localScale *= 1.2f;
-        else if (gameCtrl.ChooseBtn == 3 && gameObject.name == "Leave")
-            gameObject.transform.localScale *= 1.2f;
-        else gameObject.transform.localScale  = ori_scale;
+        if (gameObject.name == btn_name[Mathf.Clamp(gameCtrl.ChooseBtn, 0, 2)]) {
+            if (gameObject.transform.localScale == ori_scale)
+                gameObject.transform.localScale *= 1.2f;
+        } else
+            gameObject.transform.localScale = ori_scale;
 
-        if (gameCtrl.ChooseBtn == 1 && Input.GetButtonUp("Jump")) {
+        if (gameCtrl.ChooseBtn == 0 && Input.GetButtonUp("Jump")) {
             gameCtrl.Continue();
             SceneManager.LoadScene("start");
         }
-        if (gameCtrl.ChooseBtn == 2 && Input.GetButtonUp("Jump")) {
+        if (gameCtrl.ChooseBtn == 1 && Input.GetButtonUp("Jump")) {
             gameCtrl.Continue();
         }
-        if (gameCtrl.ChooseBtn == 3 && Input.GetButtonUp("Jump")) {
+        if (gameCtrl.ChooseBtn == 2 && Input.GetButtonUp("Jump")) {
             Application.Quit();
         }
 

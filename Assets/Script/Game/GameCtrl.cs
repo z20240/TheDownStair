@@ -10,7 +10,7 @@ public class GameCtrl : MonoBehaviour {
     private float _time = 1;
     private float _game_time = 0;
     private bool isPause = false;
-    private int chooseBtn = 2;
+    private int chooseBtn = 0;
 
     private stairSpawner stairSpawner;
     private PlayerCtrl playerCtrl;
@@ -59,9 +59,7 @@ public class GameCtrl : MonoBehaviour {
         }
 
         if (isPause) {
-            float h = Input.GetAxis ("Horizontal");
-            if (h == 1) chooseBtn = (chooseBtn + 1) % 3 + 1;
-            if (h == -1) chooseBtn = ((chooseBtn - 1) < 0 ? 3 : (chooseBtn - 1)) % 3 + 1;
+            if (Input.GetButtonUp("Select")) chooseBtn = (chooseBtn + 1) % 3;
         }
 
         if (((int)_time) % 6 == 0) {

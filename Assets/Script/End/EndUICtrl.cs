@@ -34,15 +34,13 @@ public class EndUICtrl : MonoBehaviour {
             }
         }
 
-        float h = Input.GetAxis ("Horizontal");
-        if (h == 1) chooseBtn = (chooseBtn + 1) % 2 + 1;
-        if (h == -1) chooseBtn = ((chooseBtn - 1) < 0 ? 2 : (chooseBtn - 1)) % 2 + 1;
+        if (Input.GetButtonUp("Select")) chooseBtn = (chooseBtn + 1)  % 2;
 
-        if (chooseBtn == 1) {
+        if (chooseBtn == 0) {
             end_ui_default.SetActive(false);
             end_ui_restart.SetActive(true);
             end_ui_quit.SetActive(false);
-        } else if (chooseBtn == 2) {
+        } else if (chooseBtn == 1) {
             end_ui_default.SetActive(false);
             end_ui_restart.SetActive(false);
             end_ui_quit.SetActive(true);
