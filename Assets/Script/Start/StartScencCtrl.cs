@@ -29,8 +29,12 @@ public class StartScencCtrl : MonoBehaviour {
             }
         }
 
-        if (Input.GetKey(KeyCode.Return))
+        // 開始遊戲
+        if (Input.GetKey(KeyCode.Return) || Input.GetButtonDown("Jump"))
             SceneManager.LoadScene("game");
+
+        if (Input.GetKeyUp(KeyCode.Escape) || Input.GetButtonDown("Cancel"))
+            Application.Quit();
 	}
 
     // 當滑鼠進入時

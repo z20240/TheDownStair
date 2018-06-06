@@ -15,6 +15,8 @@ public class EndUICtrl : MonoBehaviour {
     bool is_hover = false;
     float _time, exec_time = 0.01f;
 
+    private int chooseBtn = 1;
+
 
 	// Use this for initialization
 	void Start () {
@@ -30,6 +32,26 @@ public class EndUICtrl : MonoBehaviour {
                 is_hover = false;
                 OnHover.Invoke();
             }
+        }
+
+        float h = Input.GetAxis ("Horizontal");
+        if (h == 1) chooseBtn = (chooseBtn + 1) % 2 + 1;
+        if (h == -1) chooseBtn = ((chooseBtn - 1) < 0 ? 2 : (chooseBtn - 1)) % 2 + 1;
+
+        if (chooseBtn == 1) {
+            end_ui_default.SetActive(false);
+            end_ui_restart.SetActive(true);
+            end_ui_quit.SetActive(false);
+        } else if (chooseBtn == 2) {
+            end_ui_default.SetActive(false);
+            end_ui_restart.SetActive(false);
+            end_ui_quit.SetActive(true);
+        }
+
+        if (end_ui_quit.activeSelf && Input.GetButtonDown("Jump")) {
+            Application.Quit();
+        } else if (end_ui_restart.activeSelf && Input.GetButtonDown("Jump")) {
+            SceneManager.LoadScene("start");
         }
 	}
 

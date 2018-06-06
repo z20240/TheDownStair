@@ -31,7 +31,7 @@ public class PlayerCtrl : MonoBehaviour {
     private bool jump = false; // Condition for whether the player should jump.
     private float moveForce = 365f; // Amount of force added to move the player left and right.
     private float maxSpeed = 2f;
-    public float moveSpeed = 0.05f; // 移動速度
+    public float moveSpeed = 0.01f; // 移動速度
     private float effect_time = 2f; // 1 秒
     private int die_time = 0;
     private bool is_die = false;
@@ -286,7 +286,7 @@ public class PlayerCtrl : MonoBehaviour {
                     break;
 
                 case "Health_bag":
-                    addHp(40);
+                    addHp(20);
                     break;
             }
         }
@@ -301,6 +301,9 @@ public class PlayerCtrl : MonoBehaviour {
         // theScale.x *= -1;
         if (dist > 0) theScale.x = Mathf.Abs(theScale.x);
         else theScale.x = -Mathf.Abs(theScale.x);
+
+        if (isClone)
+            theScale.x *= -1;
 
         transform.localScale = theScale;
     }

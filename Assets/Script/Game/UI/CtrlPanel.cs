@@ -10,6 +10,7 @@ public class CtrlPanel : MonoBehaviour {
 
 
     public UnityEvent OnHover = new UnityEvent();
+    private GameCtrl gameCtrl;
 
     bool is_hover = false;
     float _time, exec_time = 0.01f;
@@ -17,14 +18,16 @@ public class CtrlPanel : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        gameCtrl = GameObject.Find("gameCtrl").GetComponent<GameCtrl>();
         ori_scale = gameObject.transform.localScale;
+
 		gameObject.GetComponent<Button>().onClick.AddListener(() => {
             switch (gameObject.name) {
                 case "Continue":
-                    GameObject.Find("gameCtrl").GetComponent<GameCtrl>().Continue();
+                    gameCtrl.Continue();
                     break;
                 case "Restart":
-                    GameObject.Find("gameCtrl").GetComponent<GameCtrl>().Continue();
+                    gameCtrl.Continue();
                     SceneManager.LoadScene("start");
                     break;
                 case "Leave":
@@ -36,6 +39,27 @@ public class CtrlPanel : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        if (gameCtrl.ChooseBtn == 1 && gameObject.name == "Restart")
+            gameObject.transform.localScale *= 1.2f;
+        else if (gameCtrl.ChooseBtn == 2 && gameObject.name == "Continue")
+            gameObject.transform.localScale *= 1.2f;
+        else if (gameCtrl.ChooseBtn == 3 && gameObject.name == "Leave")
+            gameObject.transform.localScale *= 1.2f;
+        else gameObject.transform.localScale  = ori_scale;
+
+        switch(gameCtrl.ChooseBtn) {
+            case 1:
+                gameCtrl.Continue();
+                SceneManager.LoadScene("start");
+                break;
+            case 2:
+                gameCtrl.Continue();
+                break;
+            case 3:
+                Application.Quit();
+                break;
+        }
+
         if (is_hover) {
             _time += Time.deltaTime;
 

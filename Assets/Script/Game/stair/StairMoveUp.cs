@@ -25,7 +25,12 @@ public class StairMoveUp : MonoBehaviour {
 	void Update () {
         if (gameCtrl.IsPause)
             return;
-        gameObject.transform.position += Vector3.up * stair_speed;
+
         // Debug.Log("gameCtrl " + stair_speed + "  pos " + gameObject.transform.position);
 	}
+
+    // Update is called once per frame
+    void FixedUpdate () {
+        gameObject.transform.position += Vector3.up * stair_speed;
+    }
 }
