@@ -50,7 +50,7 @@ public class GameCtrl : MonoBehaviour {
         _time += Time.deltaTime;
         _game_time += Time.deltaTime;
 
-        if (Input.GetKeyUp(KeyCode.Escape) || Input.GetButtonDown("Cancel")) {
+        if (Input.GetKeyUp(KeyCode.Escape) || Input.GetButtonUp("Cancel")) {
             if (!isPause) {
                 Pause();
             } else {

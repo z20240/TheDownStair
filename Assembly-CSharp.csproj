@@ -66,27 +66,6 @@
      <Compile Include="Assets\Script\Game\UI\UICtrl.cs" />
      <Compile Include="Assets\Script\Game\UtilTool.cs" />
      <Compile Include="Assets\Script\Start\StartScencCtrl.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\BackgroundParallax.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\BackgroundPropSpawner.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\Bomb.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\BombPickup.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\CameraFollow.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\Destroyer.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\Enemy.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\FollowPlayer.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\Gun.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\HealthPickup.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\LayBombs.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\Pauser.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\PickupSpawner.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\PlayerControl.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\PlayerHealth.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\Remover.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\Rocket.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\Score.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\ScoreShadow.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\SetParticleSortingLayer.cs" />
-     <Compile Include="Assets\Unity 遊戲教學\Scripts\Spawner.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
