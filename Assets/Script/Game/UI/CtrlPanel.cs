@@ -47,18 +47,17 @@ public class CtrlPanel : MonoBehaviour {
             gameObject.transform.localScale *= 1.2f;
         else gameObject.transform.localScale  = ori_scale;
 
-        switch(gameCtrl.ChooseBtn) {
-            case 1:
-                gameCtrl.Continue();
-                SceneManager.LoadScene("start");
-                break;
-            case 2:
-                gameCtrl.Continue();
-                break;
-            case 3:
-                Application.Quit();
-                break;
+        if (gameCtrl.ChooseBtn == 1 && Input.GetButtonUp("Jump")) {
+            gameCtrl.Continue();
+            SceneManager.LoadScene("start");
         }
+        if (gameCtrl.ChooseBtn == 2 && Input.GetButtonUp("Jump")) {
+            gameCtrl.Continue();
+        }
+        if (gameCtrl.ChooseBtn == 3 && Input.GetButtonUp("Jump")) {
+            Application.Quit();
+        }
+
 
         if (is_hover) {
             _time += Time.deltaTime;
