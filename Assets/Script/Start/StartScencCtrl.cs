@@ -30,10 +30,11 @@ public class StartScencCtrl : MonoBehaviour {
         }
 
         // 開始遊戲
-        if (Input.GetKey(KeyCode.Return) || Input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Jump"))
             SceneManager.LoadScene("game");
 
-        if (Input.GetKeyUp(KeyCode.Escape) || Input.GetButtonDown("Cancel"))
+        if (Input.GetKeyUp(KeyCode.Escape) || Input.GetButtonUp("Cancel")
+        )
             Application.Quit();
 	}
 

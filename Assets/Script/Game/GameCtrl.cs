@@ -50,7 +50,9 @@ public class GameCtrl : MonoBehaviour {
         _time += Time.deltaTime;
         _game_time += Time.deltaTime;
 
-        if (Input.GetKeyUp(KeyCode.Escape) || Input.GetButtonUp("Cancel")) {
+        if (Input.GetKeyUp(KeyCode.Escape)
+        //  || Input.GetButtonUp("Cancel")
+         ) {
             if (!isPause) {
                 Pause();
             } else {
@@ -58,12 +60,11 @@ public class GameCtrl : MonoBehaviour {
             }
         }
 
-        if (isPause) {
-            if (Input.GetButtonUp("Select")) chooseBtn = (chooseBtn + 1) % 3;
-        }
+        // if (isPause) {
+        //     if (Input.GetButtonUp("Select")) chooseBtn = (chooseBtn + 1) % 3;
+        // }
 
         if (((int)_time) % 6 == 0) {
-            Debug.Log(" == time: " + _time);
             _time = 1;
             speed_step += speed_add;
             playerCtrl.jumpForce += 10; // 提升玩家起跳的力道

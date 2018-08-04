@@ -34,23 +34,23 @@ public class EndUICtrl : MonoBehaviour {
             }
         }
 
-        if (Input.GetButtonUp("Select")) chooseBtn = (chooseBtn + 1)  % 2;
+        // if (Input.GetButtonUp("Select")) chooseBtn = (chooseBtn + 1)  % 2;
 
-        if (chooseBtn == 0) {
-            end_ui_default.SetActive(false);
-            end_ui_restart.SetActive(true);
-            end_ui_quit.SetActive(false);
-        } else if (chooseBtn == 1) {
-            end_ui_default.SetActive(false);
-            end_ui_restart.SetActive(false);
-            end_ui_quit.SetActive(true);
-        }
+        // if (chooseBtn == 0) {
+        //     end_ui_default.SetActive(false);
+        //     end_ui_restart.SetActive(true);
+        //     end_ui_quit.SetActive(false);
+        // } else if (chooseBtn == 1) {
+        //     end_ui_default.SetActive(false);
+        //     end_ui_restart.SetActive(false);
+        //     end_ui_quit.SetActive(true);
+        // }
 
-        if (end_ui_quit.activeSelf && Input.GetButtonDown("Jump")) {
-            Application.Quit();
-        } else if (end_ui_restart.activeSelf && Input.GetButtonDown("Jump")) {
-            SceneManager.LoadScene("start");
-        }
+        // if (end_ui_quit.activeSelf && Input.GetButtonDown("Jump")) {
+        //     Application.Quit();
+        // } else if (end_ui_restart.activeSelf && Input.GetButtonDown("Jump")) {
+        //     SceneManager.LoadScene("start");
+        // }
 	}
 
     // 當滑鼠進入時

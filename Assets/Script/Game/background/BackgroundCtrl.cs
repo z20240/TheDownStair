@@ -6,7 +6,7 @@ public class BackgroundCtrl : MonoBehaviour {
 
     private float speed = 2f;
 
-    private float backgroundSize = 31.56f ;
+    private float backgroundSize = 34.23f ;
     private Vector3 ori_ops;
 	// Use this for initialization
 	void Start () {

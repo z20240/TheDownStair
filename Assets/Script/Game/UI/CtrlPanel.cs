@@ -42,22 +42,22 @@ public class CtrlPanel : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (gameObject.name == btn_name[Mathf.Clamp(gameCtrl.ChooseBtn, 0, 2)]) {
-            if (gameObject.transform.localScale == ori_scale)
-                gameObject.transform.localScale *= 1.2f;
-        } else
-            gameObject.transform.localScale = ori_scale;
+        // if (gameObject.name == btn_name[Mathf.Clamp(gameCtrl.ChooseBtn, 0, 2)]) {
+        //     if (gameObject.transform.localScale == ori_scale)
+        //         gameObject.transform.localScale *= 1.2f;
+        // } else
+        //     gameObject.transform.localScale = ori_scale;
 
-        if (gameCtrl.ChooseBtn == 0 && Input.GetButtonUp("Jump")) {
-            gameCtrl.Continue();
-            SceneManager.LoadScene("start");
-        }
-        if (gameCtrl.ChooseBtn == 1 && Input.GetButtonUp("Jump")) {
-            gameCtrl.Continue();
-        }
-        if (gameCtrl.ChooseBtn == 2 && Input.GetButtonUp("Jump")) {
-            Application.Quit();
-        }
+        // if (gameCtrl.ChooseBtn == 0 && Input.GetButtonUp("Jump")) {
+        //     gameCtrl.Continue();
+        //     SceneManager.LoadScene("start");
+        // }
+        // if (gameCtrl.ChooseBtn == 1 && Input.GetButtonUp("Jump")) {
+        //     gameCtrl.Continue();
+        // }
+        // if (gameCtrl.ChooseBtn == 2 && Input.GetButtonUp("Jump")) {
+        //     Application.Quit();
+        // }
 
 
         if (is_hover) {
